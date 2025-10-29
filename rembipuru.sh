@@ -39,10 +39,11 @@ main_menu() {
     while true; do
         clear
         echo -e "${GREEN}=== Menú principal - Linux Rembipuru ===${RESET}"
-        echo "1) Actualizaciones"
-        echo "2) Discos y utilidades"
-        echo "3) Información del sistema"
-        echo "4) Salir"
+    echo "1) Actualizaciones"
+    echo "2) Discos y utilidades"
+    echo "3) Información del sistema"
+    echo "4) Pruebas y configuraciones de red"
+    echo "5) Salir"
         echo
         read -p "Selecciona una opción: " opcion
 
@@ -74,6 +75,9 @@ main_menu() {
                 read -p "Presiona Enter para volver al menú..."
                 ;;
             4)
+                red_menu
+                ;;
+            5)
                 echo "Saliendo de Linux Rembipuru..."
                 exit 0
                 ;;
@@ -120,6 +124,62 @@ discos_menu() {
                 fi
                 ;;
             5)
+                return
+                ;;
+            *)
+                echo -e "${RED}Opción inválida.${RESET}"
+                ;;
+        esac
+        echo
+        read -p "Presiona Enter para continuar..."
+    done
+}
+
+# === SUBMENÚ: PRUEBAS Y CONFIGURACIONES DE RED ===
+red_menu() {
+    PRUEBAS_DIR="$BASE_DIR/.Pruebas_y_configuraciones_red"
+    while true; do
+        clear
+        echo -e "${CYAN}=== Pruebas y configuraciones de red ===${RESET}"
+        echo "1) Ejecutar prueba de ping (test_ping.sh)"
+        echo "2) Herramienta de configuración/muestreo de red (config_network.sh)"
+        echo "3) Consulta DNS (dns_lookup.sh)"
+        echo "4) Verificar puertos abiertos"
+            echo "5) Volver"
+        echo
+        read -p "Selecciona una opción: " opcion
+
+        case $opcion in
+            1)
+                if [[ -f "$PRUEBAS_DIR/test_ping.sh" ]]; then
+                    bash "$PRUEBAS_DIR/test_ping.sh"
+                else
+                    echo -e "${RED}No se encontró test_ping.sh en $PRUEBAS_DIR${RESET}"
+                fi
+                ;;
+            2)
+                if [[ -f "$PRUEBAS_DIR/config_network.sh" ]]; then
+                    bash "$PRUEBAS_DIR/config_network.sh"
+                else
+                    echo -e "${RED}No se encontró config_network.sh en $PRUEBAS_DIR${RESET}"
+                fi
+                ;;
+            3)
+                if [[ -f "$PRUEBAS_DIR/dns_lookup.sh" ]]; then
+                    bash "$PRUEBAS_DIR/dns_lookup.sh"
+                else
+                    echo -e "${RED}No se encontró dns_lookup.sh en $PRUEBAS_DIR${RESET}"
+                fi
+                ;;
+            4)
+                echo -e "${YELLOW}Verificando puertos abiertos(netstat)...${RESET}"
+                if ! command -v netstat &> /dev/null; then
+                    echo -e "${RED}netstat no está instalado. Instalando net-tools...${RESET}"
+                    sudo apt update && sudo apt install -y net-tools
+                fi
+                sudo netstat -tuln
+                ;;
+                5)
                 return
                 ;;
             *)
