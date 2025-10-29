@@ -7,7 +7,7 @@ else
   echo -e "\e[36mIngrese el dominio a resolver (ejemplo: google.com):\e[0m "
   read -r TARGET
   if [ -z "$TARGET" ]; then
-    TARGET="example.com"
+    TARGET="google.com"
     echo -e "\e[33mNo se ingresó dominio, usando valor por defecto: $TARGET\e[0m"
   fi
 fi

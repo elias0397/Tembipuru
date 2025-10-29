@@ -2,15 +2,31 @@
 # test_ping.sh - Prueba segura de conectividad mediante ping
 # No modifica la configuración del sistema; solo realiza pruebas de conectividad.
 
-TARGET="8.8.8.8"
+TARGET=""
 COUNT=4
 
+# Si se pasa como argumento, usarlo; si no, pedirlo interactivamente.
 if [ $# -ge 1 ]; then
   TARGET="$1"
+else
+  echo -e "\e[36mIngrese el host o IP a hacer ping (por defecto: 8.8.8.8):\e[0m "
+  read -r TARGET
+  if [ -z "$TARGET" ]; then
+    TARGET="8.8.8.8"
+    echo -e "\e[33mNo se ingresó destino, usando: $TARGET\e[0m"
+  fi
 fi
 
 if [ $# -ge 2 ]; then
   COUNT="$2"
+else
+  echo -e "\e[36mIngrese la cantidad de pings a enviar (por defecto: 4):\e[0m "
+  read -r input_count
+  if [[ "$input_count" =~ ^[0-9]+$ ]]; then
+    COUNT="$input_count"
+  else
+    echo -e "\e[33mUsando conteo por defecto: $COUNT\e[0m"
+  fi
 fi
 
 echo "Prueba de ping a: $TARGET (conteo: $COUNT)"
