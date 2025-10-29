@@ -93,7 +93,8 @@ discos_menu() {
         echo "1) Listar discos montados"
         echo "2) Ver espacio en disco"
         echo "3) Reparar Formato de disco"
-        echo "4) Volver"
+        echo "4) Formatear disco (Peligroso)"
+        echo "5) Volver"
         echo
         read -p "Selecciona una opción: " opcion
 
@@ -112,6 +113,13 @@ discos_menu() {
                 fi
                 ;;
             4)
+                if [[ -f "$DISK_DIR/formatear_disco.sh" ]]; then
+                    bash "$DISK_DIR/formatear_disco.sh"
+                else
+                    echo -e "${RED}No se encontró el script formatear_disco.sh${RESET}"
+                fi
+                ;;
+            5)
                 return
                 ;;
             *)
