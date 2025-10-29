@@ -5,7 +5,7 @@
 
 # === CONFIGURACIÓN ===
 BASE_DIR="$(dirname "$(realpath "$0")")"
-DISK_DIR="$BASE_DIR/Discos_y_utilidades"
+DISK_DIR="$BASE_DIR/.Discos_y_utilidades"
 
 # Mensajes de depuración
 echo "BASE_DIR: $BASE_DIR"
