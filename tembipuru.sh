@@ -96,7 +96,7 @@ main_menu() {
                 fi
                 ;;
             6)
-                echo "Saliendo de Linux Tembipuru..."
+                echo "Saliendo de Tembipuru Linux..."
                 exit 0
                 ;;
             *)
