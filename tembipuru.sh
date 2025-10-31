@@ -175,7 +175,8 @@ red_menu() {
             echo "5) Escaneo de puertos Nmap (port_scan.sh)"
             echo "6) Verificar puertos en escucha Netstat (netstat.sh)"
             echo "7) Estado del Firewall (firewall_status.sh)"
-            echo "8) Volver"
+            echo "8) Gestionar Firewall (manage_firewall.sh)"
+            echo "9) Volver"
         else
             echo "1) Estado de servicios de red"
             echo "2) Ejecutar prueba de ping"
@@ -184,7 +185,8 @@ red_menu() {
             echo "5) Escaneo de puertos Nmap"
             echo "6) Verificar puertos en escucha Netstat"
             echo "7) Estado del Firewall"
-            echo "8) Volver"
+            echo "8) Gestionar Firewall"
+            echo "9) Volver"
         fi
         echo
         read -p "Selecciona una opción: " opcion
@@ -246,6 +248,13 @@ red_menu() {
                 fi
                 ;;
             8)
+                if [[ -f "$PRUEBAS_DIR/manage_firewall.sh" ]]; then
+                    bash "$PRUEBAS_DIR/manage_firewall.sh"
+                else
+                    echo -e "${RED}No se encontró manage_firewall.sh en $PRUEBAS_DIR${RESET}"
+                fi
+                ;;
+            9)
                 return
                 ;;
             *)
