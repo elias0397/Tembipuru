@@ -1,38 +1,61 @@
 #!/bin/bash
-# port_scan.sh - Escaneo simple de puertos usando nc o nmap
-HOST="127.0.0.1"
-PORTS="22,80,443"
+# port_scan.sh - Escaneo de puertos usando nmap
 
-if [ $# -ge 1 ]; then
-  HOST="$1"
+# === COLORES ===
+GREEN="\e[32m"
+RED="\e[31m"
+CYAN="\e[36m"
+YELLOW="\e[33m"
+RESET="\e[0m"
+
+# Puertos comunes para escanear
+COMMON_PORTS="21,22,23,25,53,80,110,139,443,445,3306,3389,5432,8080"
+
+# Función para validar IP/dominio
+validate_ip() {
+    local ip=$1
+    if [[ $ip =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+        return 0
+    elif [[ $ip =~ ^([a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}$ ]]; then
+        return 0
+    else
+        return 1
+    fi
+}
+
+# === INTERFAZ ===
+echo -e "${CYAN}=== Escáner de Puertos (Nmap) ===${RESET}\n"
+
+# Solicitar el objetivo
+while true; do
+    read -p "Ingresa la IP o dominio objetivo: " HOST
+    if validate_ip "$HOST"; then
+        break
+    else
+        echo -e "${RED}Error: Ingresa una IP o dominio válido${RESET}"
+    fi
+done
+
+# Solicitar puertos (opcional)
+echo -e "\n${YELLOW}Puertos a escanear (presiona Enter para usar puertos comunes):${RESET}"
+echo -e "${CYAN}Formato: 80,443,8080 o rangos como 80-100${RESET}"
+read -p "Puertos: " PORTS
+
+# Si no se especifican puertos, usar los comunes
+if [ -z "$PORTS" ]; then
+    PORTS=$COMMON_PORTS
+    echo -e "\n${YELLOW}Usando puertos comunes: $COMMON_PORTS${RESET}"
 fi
-if [ $# -ge 2 ]; then
-  PORTS="$2"
+
+echo -e "\n${GREEN}Iniciando escaneo de $HOST en los puertos: $PORTS ${RESET}\n"
+
+# Verificar si nmap está instalado
+if ! command -v nmap &> /dev/null; then
+    echo -e "${RED}Nmap no está instalado. Instalando...${RESET}"
+    sudo apt update && sudo apt install -y nmap
 fi
 
-IFS=, read -ra PORT_ARR <<< "$PORTS"
+# Ejecutar el escaneo con detección de versión
+sudo nmap -p"$PORTS" -sV "$HOST"
 
-echo "Escaneando host: $HOST puertos: $PORTS"
-
-# Cargar helper común
-source "$(dirname "$(realpath "$0")")/helpers.sh" || { echo "No se pudo cargar helpers.sh"; exit 1; }
-
-if command -v nc >/dev/null 2>&1; then
-  for p in "${PORT_ARR[@]}"; do
-    echo -n "Puerto $p: "
-    nc -z -w 2 "$HOST" "$p" && echo "OPEN" || echo "CLOSED/filtered"
-  done
-elif command -v nmap >/dev/null 2>&1; then
-  echo "nc no disponible, usando nmap"
-  nmap -p "$PORTS" "$HOST"
-elif check_and_install nc netcat-openbsd; then
-  for p in "${PORT_ARR[@]}"; do
-    echo -n "Puerto $p: "
-    nc -z -w 2 "$HOST" "$p" && echo "OPEN" || echo "CLOSED/filtered"
-  done
-elif check_and_install nmap nmap; then
-  nmap -p "$PORTS" "$HOST"
-else
-  echo "Ni 'nc' ni 'nmap' están disponibles y no se instalaron. Abortando."
-  exit 1
-fi
+read -p "Presiona Enter para continuar..."

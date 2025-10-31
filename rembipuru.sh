@@ -168,42 +168,40 @@ red_menu() {
         echo -e "${CYAN}=== Pruebas y configuraciones de red ===${RESET}"
         if [ "$DEBUG" -eq 1 ]; then
             echo "Directorio: $PRUEBAS_DIR"
-            echo "1) Ejecutar prueba de ping (test_ping.sh)"
-            echo "2) Herramienta de configuración/muestreo de red (config_network.sh)"
+            echo "1) Estado de servicios de red (network_services.sh)"
+            echo "2) Ejecutar prueba de ping (test_ping.sh)"
             echo "3) Consulta DNS (dns_lookup.sh)"
             echo "4) Traceroute (traceroute_test.sh)"
-            echo "5) Escaneo de puertos (port_scan.sh)"
-            echo "6) Suite de pruebas de red (network_test_suite.sh)"
-            echo "7) Estado de servicios de red (network_services.sh)"
-            echo "8) Verificar puertos abiertos (check_ports.sh)"
-            echo "9) Volver"
+            echo "5) Escaneo de puertos Nmap (port_scan.sh)"
+            echo "6) Verificar puertos en escucha Netstat (netstat.sh)"
+            echo "7) Estado del Firewall (firewall_status.sh)"
+            echo "8) Volver"
         else
-            echo "1) Ejecutar prueba de ping"
-            echo "2) Herramienta de configuración/muestreo de red"
+            echo "1) Estado de servicios de red"
+            echo "2) Ejecutar prueba de ping"
             echo "3) Consulta DNS"
             echo "4) Traceroute"
-            echo "5) Escaneo de puertos"
-            echo "6) Suite de pruebas de red"
-            echo "7) Estado de servicios de red"
-            echo "8) Verificar puertos abiertos"
-            echo "9) Volver"
+            echo "5) Escaneo de puertos Nmap"
+            echo "6) Verificar puertos en escucha Netstat"
+            echo "7) Estado del Firewall"
+            echo "8) Volver"
         fi
         echo
         read -p "Selecciona una opción: " opcion
 
         case $opcion in
             1)
+                if [[ -f "$PRUEBAS_DIR/network_services.sh" ]]; then
+                    bash "$PRUEBAS_DIR/network_services.sh"
+                else
+                    echo -e "${RED}No se encontró network_services.sh en $PRUEBAS_DIR${RESET}"
+                fi
+                ;;
+            2)
                 if [[ -f "$PRUEBAS_DIR/test_ping.sh" ]]; then
                     bash "$PRUEBAS_DIR/test_ping.sh"
                 else
                     echo -e "${RED}No se encontró test_ping.sh en $PRUEBAS_DIR${RESET}"
-                fi
-                ;;
-            2)
-                if [[ -f "$PRUEBAS_DIR/config_network.sh" ]]; then
-                    bash "$PRUEBAS_DIR/config_network.sh"
-                else
-                    echo -e "${RED}No se encontró config_network.sh en $PRUEBAS_DIR${RESET}"
                 fi
                 ;;
             3)
@@ -228,22 +226,8 @@ red_menu() {
                 fi
                 ;;
             6)
-                if [[ -f "$PRUEBAS_DIR/network_test_suite.sh" ]]; then
-                    bash "$PRUEBAS_DIR/network_test_suite.sh"
-                else
-                    echo -e "${RED}No se encontró network_test_suite.sh en $PRUEBAS_DIR${RESET}"
-                fi
-                ;;
-            7)
-                if [[ -f "$PRUEBAS_DIR/network_services.sh" ]]; then
-                    bash "$PRUEBAS_DIR/network_services.sh"
-                else
-                    echo -e "${RED}No se encontró network_services.sh en $PRUEBAS_DIR${RESET}"
-                fi
-                ;;
-            8)
-                if [[ -f "$PRUEBAS_DIR/check_ports.sh" ]]; then
-                    bash "$PRUEBAS_DIR/check_ports.sh"
+                if [[ -f "$PRUEBAS_DIR/netstat.sh" ]]; then
+                    bash "$PRUEBAS_DIR/netstat.sh"
                 else
                     echo -e "${YELLOW}Verificando puertos abiertos (netstat)...${RESET}"
                     if ! command -v netstat &> /dev/null; then
@@ -254,7 +238,14 @@ red_menu() {
                     read -p "Presiona Enter para continuar..."
                 fi
                 ;;
-            9)
+            7)
+                if [[ -f "$PRUEBAS_DIR/firewall_status.sh" ]]; then
+                    bash "$PRUEBAS_DIR/firewall_status.sh"
+                else
+                    echo -e "${RED}No se encontró firewall_status.sh en $PRUEBAS_DIR${RESET}"
+                fi
+                ;;
+            8)
                 return
                 ;;
             *)
@@ -268,3 +259,4 @@ red_menu() {
 
 # === EJECUCIÓN ===
 main_menu
+k

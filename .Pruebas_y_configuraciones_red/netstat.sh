@@ -19,7 +19,7 @@ if ! command -v netstat >/dev/null 2>&1; then
   fi
 fi
 
-echo "Mostrando puertos escuchando (tcp/udp):"
+echo "Mostrando puertos en escucha (tcp/udp):"
 sudo netstat -tuln
 
 read -p "Presiona Enter para continuar..."

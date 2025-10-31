@@ -17,21 +17,6 @@ else
   fi
 fi
 
-if [ $# -ge 2 ]; then
-  COUNT="$2"
-else
-  echo -e "\e[36mIngrese la cantidad de pings a enviar (por defecto: 4):\e[0m "
-  read -r input_count
-  if [[ "$input_count" =~ ^[0-9]+$ ]]; then
-    COUNT="$input_count"
-  else
-    echo -e "\e[33mUsando conteo por defecto: $COUNT\e[0m"
-  fi
-fi
-
-echo "Prueba de ping a: $TARGET (conteo: $COUNT)"
-echo "Presione Ctrl+C para cancelar"
-
 ping -c "$COUNT" "$TARGET"
 
 # Salida amigable
