@@ -1,7 +1,7 @@
 # Tembipuru
 # Tembipuru (English below)
 
-Suite avanzada de utilidades Bash para administración de sistemas GNU/Linux (pronto Windows). Herramientas listas para usuarios desde un menú CLI ordenado, en español, altamente configurable y adaptable.
+Suite avanzada de utilidades Bash para administración de sistemas GNU/Linux (proximamente tambien Windows). Herramientas listas para usuarios desde un menú CLI ordenado, en español, altamente configurable y adaptable.
 
 ---
 
