@@ -52,14 +52,16 @@ main_menu() {
         echo "3) Información del sistema (.scripts/neofetch_info.sh)"
         echo "4) Pruebas y configuraciones de red (scripts en .Pruebas_y_configuraciones_red)"
         echo "5) Gestión de usuarios y grupos (scripts en .Gestion_usuarios_y_grupos)"
-        echo "6) Salir"
+        echo "6) Tareas programadas (scripts en .Tareas_programadas)"
+        echo "7) Salir"
     else
         echo "1) Actualizaciones"
         echo "2) Discos y utilidades"
         echo "3) Información del sistema"
         echo "4) Pruebas y configuraciones de red"
         echo "5) Gestión de usuarios y grupos"
-        echo "6) Salir"
+        echo "6) Tareas programadas"
+        echo "7) Salir"
     fi
         echo
         read -p "Selecciona una opción: " opcion
@@ -96,7 +98,10 @@ main_menu() {
                 fi
                 ;;
             6)
-                echo "Saliendo de Tembipuru Linux..."
+                tareas_programadas_menu
+                ;;
+            7)
+                echo "Saliendo de Linux Tembipuru..."
                 exit 0
                 ;;
             *)
@@ -118,13 +123,17 @@ discos_menu() {
             echo "2) Ver espacio en disco (disk_space.sh)"
             echo "3) Reparar Formato de disco (reparar_formato.sh)"
             echo "4) Formatear disco (Peligroso) (formatear_disco.sh)"
-            echo "5) Volver"
+            echo "5) Ver fstab (show_fstab.sh)"
+            echo "6) Editar fstab (edit_fstab.sh)"
+            echo "7) Volver"
         else
             echo "1) Listar discos montados"
             echo "2) Ver espacio en disco"
             echo "3) Reparar Formato de disco"
             echo "4) Formatear disco (Peligroso)"
-            echo "5) Volver"
+            echo "5) Ver fstab"
+            echo "6) Editar fstab"
+            echo "7) Volver"
         fi
         echo
         read -p "Selecciona una opción: " opcion
@@ -159,6 +168,20 @@ discos_menu() {
                 fi
                 ;;
             5)
+                if [[ -f "$DISK_DIR/show_fstab.sh" ]]; then
+                    bash "$DISK_DIR/show_fstab.sh"
+                else
+                    echo -e "${RED}No se encontró show_fstab.sh en $DISK_DIR${RESET}"
+                fi
+                ;;
+            6)
+                if [[ -f "$DISK_DIR/edit_fstab.sh" ]]; then
+                    bash "$DISK_DIR/edit_fstab.sh"
+                else
+                    echo -e "${RED}No se encontró edit_fstab.sh en $DISK_DIR${RESET}"
+                fi
+                ;;
+            7)
                 return
                 ;;
             *)
@@ -265,6 +288,44 @@ red_menu() {
                 fi
                 ;;
             9)
+                return
+                ;;
+            *)
+                echo -e "${RED}Opción inválida.${RESET}"
+                ;;
+        esac
+        echo
+        read -p "Presiona Enter para continuar..."
+    done
+}
+
+# === SUBMENÚ: TAREAS PROGRAMADAS ===
+tareas_programadas_menu() {
+    TAREAS_DIR="$BASE_DIR/.Tareas_programadas"
+    while true; do
+        clear
+        echo -e "${CYAN}=== Tareas programadas ===${RESET}"
+        echo "1) Ver tareas programadas (crontab)"
+        echo "2) Agregar tarea programada"
+        echo "3) Volver"
+        echo
+        read -p "Selecciona una opción: " opcion
+        case $opcion in
+            1)
+                if [[ -f "$TAREAS_DIR/ver_crontab.sh" ]]; then
+                    bash "$TAREAS_DIR/ver_crontab.sh"
+                else
+                    echo -e "${RED}No se encontró ver_crontab.sh en $TAREAS_DIR${RESET}"
+                fi
+                ;;
+            2)
+                if [[ -f "$TAREAS_DIR/agregar_crontab.sh" ]]; then
+                    bash "$TAREAS_DIR/agregar_crontab.sh"
+                else
+                    echo -e "${RED}No se encontró agregar_crontab.sh en $TAREAS_DIR${RESET}"
+                fi
+                ;;
+            3)
                 return
                 ;;
             *)
