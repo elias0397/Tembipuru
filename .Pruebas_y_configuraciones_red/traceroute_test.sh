@@ -1,4 +1,7 @@
 #!/bin/bash
+# Linux Rembipuru - Suite de herramientas del sistema
+# Autor: Elias Araujo
+# Versión: BETA
 # traceroute_test.sh - Prueba de ruta hasta un host (usa traceroute o tracepath)
 TARGET=""
 

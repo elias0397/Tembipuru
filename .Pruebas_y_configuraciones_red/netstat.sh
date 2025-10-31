@@ -1,4 +1,7 @@
 #!/bin/bash
+# Linux Rembipuru - Suite de herramientas del sistema
+# Autor: Elias Araujo
+# Versión: BETA
 # check_ports.sh - Verifica puertos escuchando con netstat (instala net-tools si el usuario acepta)
 
 HELPERS_DIR="$(dirname "$(realpath "$0")")"

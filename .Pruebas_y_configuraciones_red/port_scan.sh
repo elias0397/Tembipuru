@@ -1,4 +1,7 @@
 #!/bin/bash
+# Linux Rembipuru - Suite de herramientas del sistema
+# Autor: Elias Araujo
+# Versión: BETA
 # port_scan.sh - Escaneo de puertos usando nmap
 
 # === COLORES ===

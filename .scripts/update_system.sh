@@ -1,4 +1,7 @@
 #!/bin/bash
+# Linux Rembipuru - Suite de herramientas del sistema
+# Autor: Elias Araujo
+# Versión: BETA
 # update_system.sh - Actualiza el sistema usando el gestor de paquetes disponible
 
 set -e

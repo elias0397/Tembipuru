@@ -1,4 +1,7 @@
 #!/bin/bash
+# Linux Rembipuru - Suite de herramientas del sistema
+# Autor: Elias Araujo
+# Versión: BETA
 # firewall_status.sh - Muestra el estado del firewall y sus reglas
 
 # === COLORES ===

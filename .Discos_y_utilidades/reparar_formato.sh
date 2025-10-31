@@ -1,4 +1,7 @@
 #!/bin/bash
+# Linux Rembipuru - Suite de herramientas del sistema
+# Autor: Elias Araujo
+# Versión: BETA
 # Script interactivo para desmontar, reparar y montar un disco
 
 echo "=========================================="

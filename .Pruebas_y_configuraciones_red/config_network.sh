@@ -1,4 +1,7 @@
 #!/bin/bash
+# Linux Rembipuru - Suite de herramientas del sistema
+# Autor: Elias Araujo
+# Versión: BETA
 # config_network.sh - Herramienta segura para mostrar información de red y ofrecer acciones no destructivas
 # Esta herramienta NO aplicará cambios sin confirmación explícita del usuario.
 

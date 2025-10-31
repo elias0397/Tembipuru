@@ -1,4 +1,7 @@
 #!/bin/bash
+# Linux Rembipuru - Suite de herramientas del sistema
+# Autor: Elias Araujo
+# Versión: BETA
 # helpers.sh - Funciones compartidas para Pruebas_y_configuraciones_red
 
 # Detectar gestor de paquetes

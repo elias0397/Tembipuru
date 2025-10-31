@@ -1,4 +1,7 @@
 #!/bin/bash
+# Linux Rembipuru - Suite de herramientas del sistema
+# Autor: Elias Araujo
+# Versión: BETA
 # Script: manage_firewall.sh
 # Permite gestionar el firewall en Linux (UFW, firewalld o iptables) desde un menú interactivo
 # Autor: Elias Araujo (modificado por IA)

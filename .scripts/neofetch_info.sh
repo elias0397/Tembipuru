@@ -1,4 +1,7 @@
 #!/bin/bash
+# Linux Rembipuru - Suite de herramientas del sistema
+# Autor: Elias Araujo
+# Versión: BETA
 # neofetch_info.sh - Muestra la información del sistema con neofetch (instala si el usuario acepta)
 
 if command -v neofetch >/dev/null 2>&1; then

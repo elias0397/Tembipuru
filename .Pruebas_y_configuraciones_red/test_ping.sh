@@ -1,4 +1,7 @@
 #!/bin/bash
+# Linux Rembipuru - Suite de herramientas del sistema
+# Autor: Elias Araujo
+# Versión: BETA
 # test_ping.sh - Prueba segura de conectividad mediante ping
 # No modifica la configuración del sistema; solo realiza pruebas de conectividad.
 

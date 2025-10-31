@@ -1,4 +1,7 @@
 #!/bin/bash
+# Linux Rembipuru - Suite de herramientas del sistema
+# Autor: Elias Araujo
+# Versión: BETA
 # network_services.sh - Muestra el estado simplificado de la red
 
 # === COLORES ===

@@ -1,7 +1,7 @@
 #!/bin/bash
 # Linux Rembipuru - Suite de herramientas del sistema
 # Autor: Elias Araujo
-# Versión: 0.2
+# Versión: BETA
 
 # === CONFIGURACIÓN ===
 BASE_DIR="$(dirname "$(realpath "$0")")"

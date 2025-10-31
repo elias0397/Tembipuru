@@ -1,5 +1,7 @@
 #!/bin/bash
-
+# Linux Rembipuru - Suite de herramientas del sistema
+# Autor: Elias Araujo
+# Versión: BETA
 # Colores
 GREEN="\e[32m"
 CYAN="\e[36m"

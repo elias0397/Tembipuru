@@ -1,4 +1,7 @@
 #!/bin/bash
+# Linux Rembipuru - Suite de herramientas del sistema
+# Autor: Elias Araujo
+# Versión: BETA
 # dns_lookup.sh - Resuelve un dominio usando dig o host
 TARGET=""
 if [ $# -ge 1 ]; then
