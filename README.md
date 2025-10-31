@@ -32,23 +32,6 @@ bash tembipuru.sh
 
 ---
 
-## Scripts destacados
-
-### Gestión avanzada de Firewall
-
-Accede desde el menú de red o ejecuta:
-
-```bash
-bash .Pruebas_y_configuraciones_red/manage_firewall.sh
-```
-
-- El script detecta y utiliza automáticamente el firewall disponible (`ufw`, `firewalld`, `iptables`).
-- Acciones desde un menú: activar/desactivar, permitir/bloquear/eliminar reglas y puertos.
-- Mensajes claros y seguros; ideal para principiantes y avanzados.
-- Soporta Ubuntu, Debian, Fedora, Arch, CentOS y más.
-
----
-
 ## Personalización y colaboración
 
 - Para modificar o añadir scripts, sigue la nomenclatura y los comentarios ya existentes.
@@ -113,23 +96,6 @@ Advanced Bash tools suite for GNU/Linux systems administration (Windows support 
 ```bash
 bash tembipuru.sh
 ```
-
----
-
-## Featured Scripts
-
-### Advanced Firewall Management
-
-Access from the network menu or run directly:
-
-```bash
-bash .Pruebas_y_configuraciones_red/manage_firewall.sh
-```
-
-- Automatically detects and uses the available firewall (`ufw`, `firewalld`, `iptables`).
-- Actions via menu: enable/disable, allow/block/delete rules and ports.
-- Clear and safe messages; ideal for beginners and advanced users.
-- Supports Ubuntu, Debian, Fedora, Arch, CentOS, and more.
 
 ---
 
