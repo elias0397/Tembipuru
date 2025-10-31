@@ -27,9 +27,9 @@ fi
 # === PANTALLA DE PRESENTACIÓN ===
 echo -e "${CYAN}"
 echo "=============================================="
-echo "        🐧  Linux Rembipuru CLI Suite"
+echo "        🐧 Tembipuru Linux CLI Suite"
 echo "=============================================="
-echo -e "${YELLOW} Versión 0.2 - Herramientas para el sistema"
+echo -e "${YELLOW} Versión BETA - Herramientas para el sistema"
 echo -e "${RESET}"
 sleep 1
 for i in {1..3}; do
@@ -51,13 +51,15 @@ main_menu() {
         echo "2) Discos y utilidades (scripts en .Discos_y_utilidades)"
         echo "3) Información del sistema (.scripts/neofetch_info.sh)"
         echo "4) Pruebas y configuraciones de red (scripts en .Pruebas_y_configuraciones_red)"
-        echo "5) Salir"
+        echo "5) Gestión de usuarios y grupos (scripts en .Gestion_usuarios_y_grupos)"
+        echo "6) Salir"
     else
         echo "1) Actualizaciones"
         echo "2) Discos y utilidades"
         echo "3) Información del sistema"
         echo "4) Pruebas y configuraciones de red"
-        echo "5) Salir"
+        echo "5) Gestión de usuarios y grupos"
+        echo "6) Salir"
     fi
         echo
         read -p "Selecciona una opción: " opcion
@@ -86,7 +88,15 @@ main_menu() {
                 red_menu
                 ;;
             5)
-                echo "Saliendo de Linux Rembipuru..."
+                if [[ -f "$BASE_DIR/.Gestion_usuarios_y_grupos/manage_users_groups.sh" ]]; then
+                    bash "$BASE_DIR/.Gestion_usuarios_y_grupos/manage_users_groups.sh"
+                else
+                    echo -e "${RED}No se encontró $BASE_DIR/.Gestion_usuarios_y_grupos/manage_users_groups.sh${RESET}"
+                    read -p "Presiona Enter para volver al menú..."
+                fi
+                ;;
+            6)
+                echo "Saliendo de Linux Tembipuru..."
                 exit 0
                 ;;
             *)
