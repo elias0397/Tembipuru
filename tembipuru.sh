@@ -45,7 +45,14 @@ main_menu() {
     while true; do
         clear
         echo -e "${GREEN}=== Menú principal - Linux Rembipuru ===${RESET}"
+        echo "=============================================="
+        echo "        🐧 Tembipuru Linux CLI Suite"
+        echo "=============================================="
+        echo -e "${YELLOW} Versión BETA - Herramientas para el sistema" 
+        echo -e "${RESET}"
+
     if [ "$DEBUG" -eq 1 ]; then
+        echo -e "${CYAN}" 
         echo "Directorio de scripts: $BASE_DIR/.scripts"
         echo "1) Actualizaciones (.scripts/update_system.sh)"
         echo "2) Discos y utilidades (scripts en .Discos_y_utilidades)"
