@@ -24,5 +24,3 @@ fi
 
 echo "Mostrando puertos en escucha (tcp/udp):"
 sudo netstat -tuln
-
-read -p "Presiona Enter para continuar..."

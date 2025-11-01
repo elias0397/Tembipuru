@@ -59,10 +59,12 @@ while true; do
     echo "1) Ver estado actual"
     echo "2) Activar firewall"
     echo "3) Desactivar firewall"
-    echo "4) Permitir un puerto/regla"
+    echo "4) Reiniciar servicio de firewall"
     echo "5) Bloquear (negar) un puerto/regla"
     echo "6) Eliminar regla/puerto"
-    echo "7) Salir"
+    echo "7) Permitir un puerto/regla"
+    echo "8) Salir"
+    
     echo
     read -p "Selecciona una opción: " opt
     case $opt in
@@ -90,13 +92,21 @@ while true; do
             echo "Firewall desactivado."
             ;;
         4)
-            read -p "Introduce el puerto o la regla a permitir (Ej: 22/tcp, 443, ssh): " regla
+            echo "Reiniciando el servicio de firewall..."
             case $FIREWALL in
-                ufw) ufw_allow "$regla";;
-                firewalld) firewalld_allow "$regla";;
-                iptables) iptables_allow "$regla";;
+                ufw)
+                    sudo systemctl restart ufw && echo "Servicio ufw reiniciado." || echo "Error al reiniciar ufw." ;;
+                firewalld)
+                    sudo systemctl restart firewalld && echo "Servicio firewalld reiniciado." || echo "Error al reiniciar firewalld." ;;
+                iptables)
+                    if systemctl list-unit-files | grep -q iptables; then
+                        sudo systemctl restart iptables && echo "Servicio iptables reiniciado." || echo "Error al reiniciar iptables." ;
+                    else
+                        echo "No hay servicio iptables, se recargan reglas."
+                        sudo iptables-save | sudo iptables-restore && echo "Reglas recargadas." || echo "Error al recargar las reglas." 
+                    fi
+                    ;;
             esac
-            echo "Permiso agregado para $regla."
             ;;
         5)
             read -p "Introduce el puerto a bloquear/denegar (Ej: 80, 23, etc): " regla
@@ -117,6 +127,15 @@ while true; do
             echo "Regla $regla eliminada."
             ;;
         7)
+             read -p "Introduce el puerto o la regla a permitir (Ej: 22/tcp, 443, ssh): " regla
+            case $FIREWALL in
+                ufw) ufw_allow "$regla";;
+                firewalld) firewalld_allow "$regla";;
+                iptables) iptables_allow "$regla";;
+            esac
+            echo "Permiso agregado para $regla."
+            ;;
+        8)
             exit 0
             ;;
         *)

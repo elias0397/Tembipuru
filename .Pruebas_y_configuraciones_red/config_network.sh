@@ -59,5 +59,5 @@ select opt in "${options[@]}"; do
       ;;
   esac
   echo
-  read -p "Presione Enter para continuar..."
+  #read -p "Presione Enter para continuar..."
 done

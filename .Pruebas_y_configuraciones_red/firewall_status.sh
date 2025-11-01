@@ -88,5 +88,3 @@ case $FIREWALL_TYPE in
         echo -e "- IPTables (base)"
         ;;
 esac
-
-read -p "Presiona Enter para continuar..."

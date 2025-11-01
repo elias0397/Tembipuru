@@ -66,5 +66,3 @@ check_interfaces() {
 echo -e "${CYAN}=== Estado de Red ===${RESET}\n"
 check_network_service
 check_interfaces
-
-read -p "Presiona Enter para continuar..."
