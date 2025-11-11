@@ -78,12 +78,13 @@ case "$FSTYPE" in
 esac
 
 # Montar de nuevo
-echo "🔄 Montando /dev/$DISCO en $MONTAJE..."
-sudo mount "/dev/$DISCO" "$MONTAJE"
-
+echo "🔄 Montando temporalmente en /dev/$DISCO en $MONTAJE..."
+sudo mount "/dev/$DISCO" "$MONTAJE"  
 # Confirmar
 if mount | grep -q "/dev/$DISCO"; then
-    echo -e "\n✅ El disco fue reparado y montado correctamente en $MONTAJE"
+    #echo -e "\n✅ El disco fue reparado y montado correctamente en $MONTAJE"
+    sudo umount "/dev/$DISCO"
+    echo -e "\n✅ El disco fue reparado, vuelva a montarlo en el sistema"
 else
     echo -e "\n❌ No se pudo montar el disco. Revisa los mensajes anteriores."
 fi
