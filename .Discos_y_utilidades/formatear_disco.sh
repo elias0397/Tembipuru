@@ -84,12 +84,74 @@ formatear_disco() {
     
     # Verificar si los paquetes necesarios están instalados
     check_and_install_package() {
-        local package=$1
-        if ! command -v "$package" &> /dev/null; then
-            echo -e "${YELLOW}El paquete necesario para $package no está instalado.${RESET}"
-            read -p "¿Desea instalarlo? (s/n): " install_choice
+        local cmd=$1
+        if ! command -v "$cmd" &> /dev/null; then
+            echo -e "${YELLOW}El comando necesario '$cmd' no está instalado.${RESET}"
+            
+            # Detectar gestor de paquetes
+            local pm="unknown"
+            if command -v apt-get >/dev/null 2>&1; then
+                pm="apt"
+            elif command -v pacman >/dev/null 2>&1; then
+                pm="pacman"
+            elif command -v dnf >/dev/null 2>&1; then
+                pm="dnf"
+            elif command -v zypper >/dev/null 2>&1; then
+                pm="zypper"
+            fi
+
+            # Mapear comando al paquete correspondiente
+            local pkg=""
+            case "$cmd" in
+                mkfs.ntfs)
+                    case "$pm" in
+                        apt) pkg="ntfs-3g" ;;
+                        pacman) pkg="ntfsprogs" ;;
+                        *) pkg="ntfsprogs" ;;
+                    esac
+                    ;;
+                mkfs.btrfs)
+                    pkg="btrfs-progs"
+                    ;;
+                mkfs.xfs)
+                    pkg="xfsprogs"
+                    ;;
+                mkfs.exfat)
+                    pkg="exfatprogs"
+                    ;;
+                mkudffs)
+                    pkg="udftools"
+                    ;;
+                mkfs.f2fs)
+                    pkg="f2fs-tools"
+                    ;;
+                *)
+                    pkg="$cmd"
+                    ;;
+            esac
+
+            read -p "¿Desea instalar el paquete '$pkg'? (s/n): " install_choice
             if [[ $install_choice =~ ^[Ss]$ ]]; then
-                sudo apt-get update && sudo apt-get install -y "$package"
+                case "$pm" in
+                    apt)
+                        sudo apt-get update && sudo apt-get install -y "$pkg"
+                        ;;
+                    pacman)
+                        sudo pacman -S --noconfirm "$pkg"
+                        ;;
+                    dnf)
+                        sudo dnf install -y "$pkg"
+                        ;;
+                    zypper)
+                        sudo zypper install -y "$pkg"
+                        ;;
+                    *)
+                        echo -e "${RED}Gestor de paquetes no soportado. Por favor, instale '$pkg' manualmente.${RESET}"
+                        sleep 2
+                        return 1
+                        ;;
+                esac
+                
                 if [ $? -ne 0 ]; then
                     echo -e "${RED}Error al instalar el paquete. Operación cancelada.${RESET}"
                     sleep 2

@@ -47,7 +47,7 @@ check_and_install() {
       install_cmd_str="sudo dnf install -y $pkg"
       ;;
     pacman)
-      install_cmd_str="sudo pacman -Sy $pkg"
+      install_cmd_str="sudo pacman -S --noconfirm $pkg"
       ;;
     zypper)
       install_cmd_str="sudo zypper install -y $pkg"
@@ -75,7 +75,7 @@ check_and_install() {
       sudo dnf install -y "$pkg"
       return $?
     elif [ "$pm" = "pacman" ]; then
-      sudo pacman -Sy "$pkg"
+      sudo pacman -S --noconfirm "$pkg"
       return $?
     elif [ "$pm" = "zypper" ]; then
       sudo zypper install -y "$pkg"

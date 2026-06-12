@@ -59,7 +59,18 @@ fi
 case "$FSTYPE" in
     ntfs)
         echo "🧰 Reparando NTFS con ntfsfix..."
-        sudo apt install -y ntfs-3g >/dev/null 2>&1
+        if ! command -v ntfsfix >/dev/null 2>&1; then
+            echo "Instalando herramientas de NTFS..."
+            if command -v apt-get >/dev/null 2>&1; then
+                sudo apt update && sudo apt install -y ntfs-3g >/dev/null 2>&1
+            elif command -v pacman >/dev/null 2>&1; then
+                sudo pacman -S --noconfirm ntfsprogs >/dev/null 2>&1
+            elif command -v dnf >/dev/null 2>&1; then
+                sudo dnf install -y ntfsprogs >/dev/null 2>&1
+            elif command -v zypper >/dev/null 2>&1; then
+                sudo zypper install -y ntfsprogs >/dev/null 2>&1
+            fi
+        fi
         sudo ntfsfix "/dev/$DISCO"
         ;;
     ext4|ext3|ext2)
@@ -68,7 +79,18 @@ case "$FSTYPE" in
         ;;
     exfat)
         echo "🧰 Reparando exFAT con fsck.exfat..."
-        sudo apt install -y exfatprogs >/dev/null 2>&1
+        if ! command -v fsck.exfat >/dev/null 2>&1; then
+            echo "Instalando herramientas de exFAT..."
+            if command -v apt-get >/dev/null 2>&1; then
+                sudo apt update && sudo apt install -y exfatprogs >/dev/null 2>&1
+            elif command -v pacman >/dev/null 2>&1; then
+                sudo pacman -S --noconfirm exfatprogs >/dev/null 2>&1
+            elif command -v dnf >/dev/null 2>&1; then
+                sudo dnf install -y exfatprogs >/dev/null 2>&1
+            elif command -v zypper >/dev/null 2>&1; then
+                sudo zypper install -y exfatprogs >/dev/null 2>&1
+            fi
+        fi
         sudo fsck.exfat -y "/dev/$DISCO"
         ;;
     *)
@@ -78,13 +100,27 @@ case "$FSTYPE" in
 esac
 
 # Montar de nuevo
-echo "🔄 Montando temporalmente en /dev/$DISCO en $MONTAJE..."
-sudo mount "/dev/$DISCO" "$MONTAJE"  
+echo "🔄 Montando temporalmente /dev/$DISCO en $MONTAJE..."
+montado=false
+if [ "$FSTYPE" = "ntfs" ] && command -v ntfs-3g >/dev/null 2>&1; then
+    if sudo mount -t ntfs-3g "/dev/$DISCO" "$MONTAJE" >/dev/null 2>&1; then
+        montado=true
+    fi
+fi
+
+if [ "$montado" = false ]; then
+    sudo mount "/dev/$DISCO" "$MONTAJE"
+fi
+
 # Confirmar
 if mount | grep -q "/dev/$DISCO"; then
-    #echo -e "\n✅ El disco fue reparado y montado correctamente en $MONTAJE"
     sudo umount "/dev/$DISCO"
     echo -e "\n✅ El disco fue reparado, vuelva a montarlo en el sistema"
 else
     echo -e "\n❌ No se pudo montar el disco. Revisa los mensajes anteriores."
+    if [ "$FSTYPE" = "ntfs" ]; then
+        echo "Nota: Si el disco tiene Windows Fast Startup o hibernación activa, el sistema"
+        echo "de archivos estará protegido contra escritura y el kernel no lo montará."
+        echo "Puedes intentar montarlo en modo de solo lectura (ro) o desactivar Inicio Rápido en Windows."
+    fi
 fi

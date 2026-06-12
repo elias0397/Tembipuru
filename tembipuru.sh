@@ -132,7 +132,8 @@ discos_menu() {
             echo "4) Formatear disco (Peligroso) (formatear_disco.sh)"
             echo "5) Ver fstab (show_fstab.sh)"
             echo "6) Editar fstab (edit_fstab.sh)"
-            echo "7) Volver"
+            echo "7) Solucionar error de montaje NTFS (fix_ntfs_mount.sh)"
+            echo "8) Volver"
         else
             echo "1) Listar discos montados"
             echo "2) Ver espacio en disco"
@@ -140,7 +141,8 @@ discos_menu() {
             echo "4) Formatear disco (Peligroso)"
             echo "5) Ver fstab"
             echo "6) Editar fstab"
-            echo "7) Volver"
+            echo "7) Solucionar error de montaje NTFS"
+            echo "8) Volver"
         fi
         echo
         read -p "Selecciona una opción: " opcion
@@ -189,6 +191,13 @@ discos_menu() {
                 fi
                 ;;
             7)
+                if [[ -f "$DISK_DIR/fix_ntfs_mount.sh" ]]; then
+                    bash "$DISK_DIR/fix_ntfs_mount.sh"
+                else
+                    echo -e "${RED}No se encontró el script fix_ntfs_mount.sh${RESET}"
+                fi
+                ;;
+            8)
                 return
                 ;;
             *)
@@ -276,7 +285,17 @@ red_menu() {
                     echo -e "${YELLOW}Verificando puertos abiertos (netstat)...${RESET}"
                     if ! command -v netstat &> /dev/null; then
                         echo -e "${RED}netstat no está instalado. Instalando net-tools...${RESET}"
-                        sudo apt update && sudo apt install -y net-tools
+                        if command -v apt-get &>/dev/null; then
+                            sudo apt update && sudo apt install -y net-tools
+                        elif command -v pacman &>/dev/null; then
+                            sudo pacman -S --noconfirm net-tools
+                        elif command -v dnf &>/dev/null; then
+                            sudo dnf install -y net-tools
+                        elif command -v zypper &>/dev/null; then
+                            sudo zypper install -y net-tools
+                        else
+                            echo -e "${RED}No se pudo instalar automáticamente. Instale net-tools manualmente.${RESET}"
+                        fi
                     fi
                     sudo netstat -tuln
                     read -p "Presiona Enter para continuar..."
@@ -355,4 +374,3 @@ tareas_programadas_menu() {
 
 # === EJECUCIÓN ===
 main_menu
-k
