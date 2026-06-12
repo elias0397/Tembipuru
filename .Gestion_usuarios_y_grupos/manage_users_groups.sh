@@ -2,6 +2,7 @@
 # Menú de gestión de usuarios y grupos para Tembipuru
 
 GEST_DIR="$(dirname "$0")"
+enters=0
 
 while true; do
     clear
@@ -18,6 +19,17 @@ while true; do
     echo "10) Salir"
     echo
     read -p "Seleccione una opción: " opcion
+
+    if [ -z "$opcion" ]; then
+        ((enters++))
+        if [ "$enters" -ge 3 ]; then
+            exit 0
+        fi
+        continue
+    else
+        enters=0
+    fi
+
     case $opcion in
         1)
             bash "$GEST_DIR/create_user.sh"

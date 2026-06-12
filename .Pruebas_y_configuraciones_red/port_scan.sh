@@ -18,7 +18,7 @@ if ! command -v nmap &> /dev/null; then
     elif command -v dnf &>/dev/null; then
         sudo dnf install -y nmap
     elif command -v pacman &>/dev/null; then
-        sudo pacman -Sy --noconfirm nmap
+        sudo pacman -S --noconfirm nmap
     else
         echo -e "${RED}No se pudo instalar automáticamente. Instale nmap manualmente.${RESET}"
         exit 1
@@ -31,8 +31,14 @@ while (( intentos < 3 )); do
     echo -e "${CYAN}=== Escaneo de Puertos con Nmap ===${RESET}"
     read -p "Introduce el host o IP a escanear o 3 veces Enter para salir: " target
     if [[ -n "$target" ]]; then
-        echo -e "${GREEN}Escaneando puertos comunes en $target ...${RESET}"
-        nmap -F "$target"
+        read -p "Introduce el puerto o rango de puertos (ej. 80, 22-80) [Enter para comunes]: " ports
+        if [[ -n "$ports" ]]; then
+            echo -e "${GREEN}Escaneando puerto(s) $ports en $target ...${RESET}"
+            nmap -p "$ports" "$target"
+        else
+            echo -e "${GREEN}Escaneando puertos comunes en $target ...${RESET}"
+            nmap -F "$target"
+        fi
         echo
         read -p "Presiona Enter para volver al menú..."
         exit 0

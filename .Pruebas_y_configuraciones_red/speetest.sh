@@ -19,7 +19,7 @@ if ! command -v speedtest-cli &> /dev/null; then
     elif command -v dnf &>/dev/null; then
         sudo dnf install -y speedtest-cli
     elif command -v pacman &>/dev/null; then
-        sudo pacman -Sy --noconfirm speedtest-cli
+        sudo pacman -S --noconfirm speedtest-cli
     else
         echo -e "${RED}No se pudo instalar automáticamente. Instale speedtest-cli manualmente.${RESET}"
         exit 1

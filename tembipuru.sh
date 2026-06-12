@@ -42,6 +42,7 @@ clear
 
 # === MENÚ PRINCIPAL ===
 main_menu() {
+    local enters=0
     while true; do
         clear
         echo -e "${GREEN}=== Menú principal - Linux Rembipuru ===${RESET}"
@@ -72,6 +73,17 @@ main_menu() {
     fi
         echo
         read -p "Selecciona una opción: " opcion
+
+        if [ -z "$opcion" ]; then
+            ((enters++))
+            if [ "$enters" -ge 3 ]; then
+                echo "Saliendo de Linux Tembipuru..."
+                exit 0
+            fi
+            continue
+        else
+            enters=0
+        fi
 
         case $opcion in
             1)
@@ -121,6 +133,7 @@ main_menu() {
 
 # === SUBMENÚ: DISCOS Y UTILIDADES ===
 discos_menu() {
+    local enters=0
     while true; do
         clear
         echo -e "${CYAN}=== Discos y utilidades ===${RESET}"
@@ -146,6 +159,16 @@ discos_menu() {
         fi
         echo
         read -p "Selecciona una opción: " opcion
+
+        if [ -z "$opcion" ]; then
+            ((enters++))
+            if [ "$enters" -ge 3 ]; then
+                return
+            fi
+            continue
+        else
+            enters=0
+        fi
 
         case $opcion in
             1)
@@ -211,6 +234,7 @@ discos_menu() {
 
 # === SUBMENÚ: PRUEBAS Y CONFIGURACIONES DE RED ===
 red_menu() {
+    local enters=0
     PRUEBAS_DIR="$BASE_DIR/.Pruebas_y_configuraciones_red"
     while true; do
         clear
@@ -241,6 +265,16 @@ red_menu() {
         fi
         echo
         read -p "Selecciona una opción: " opcion
+
+        if [ -z "$opcion" ]; then
+            ((enters++))
+            if [ "$enters" -ge 3 ]; then
+                return
+            fi
+            continue
+        else
+            enters=0
+        fi
 
         case $opcion in
             1)
@@ -336,6 +370,7 @@ red_menu() {
 
 # === SUBMENÚ: TAREAS PROGRAMADAS ===
 tareas_programadas_menu() {
+    local enters=0
     TAREAS_DIR="$BASE_DIR/.Tareas_programadas"
     while true; do
         clear
@@ -345,6 +380,17 @@ tareas_programadas_menu() {
         echo "3) Volver"
         echo
         read -p "Selecciona una opción: " opcion
+
+        if [ -z "$opcion" ]; then
+            ((enters++))
+            if [ "$enters" -ge 3 ]; then
+                return
+            fi
+            continue
+        else
+            enters=0
+        fi
+
         case $opcion in
             1)
                 if [[ -f "$TAREAS_DIR/ver_crontab.sh" ]]; then
