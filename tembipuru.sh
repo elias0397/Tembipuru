@@ -1,5 +1,5 @@
 #!/bin/bash
-# Linux Rembipuru - Suite de herramientas del sistema
+# Linux Tembipuru - Suite de herramientas del sistema
 # Autor: Elias Araujo
 # Versión: BETA
 
