@@ -6,7 +6,7 @@
 # === CONFIGURACIÓN ===
 BASE_DIR="$(dirname "$(realpath "$0")")"
 DISK_DIR="$BASE_DIR/Discos_y_utilidades"
-
+COM_DIR="$BASE_DIR/scripts"
 # Mensajes de depuración
 echo "BASE_DIR: $BASE_DIR"
 echo "DISK_DIR: $DISK_DIR"
@@ -61,7 +61,8 @@ main_menu() {
         echo "4) Pruebas y configuraciones de red (scripts en Pruebas_y_configuraciones_red)"
         echo "5) Gestión de usuarios y grupos (scripts en Gestion_usuarios_y_grupos)"
         echo "6) Tareas programadas (scripts en Tareas_programadas)"
-        echo "7) Salir"
+        echo "7) Puertos Serie (COM)"
+        echo "8) Salir"
     else
         echo "1) Actualizaciones"
         echo "2) Discos y utilidades"
@@ -69,7 +70,8 @@ main_menu() {
         echo "4) Pruebas y configuraciones de red"
         echo "5) Gestión de usuarios y grupos"
         echo "6) Tareas programadas"
-        echo "7) Salir"
+        echo "7) Puertos Serie (COM)"
+        echo "8) Salir"
     fi
         echo
         read -p "Selecciona una opción: " opcion
@@ -115,6 +117,16 @@ main_menu() {
                 tareas_programadas_menu
                 ;;
             7)
+                if [[ -f "$COM_DIR/serial_manager.sh" ]]; then
+                    bash "$COM_DIR/serial_manager.sh"
+                    echo
+                    read -p "Presiona Enter para volver al menú..."
+                else
+                    echo -e "${RED}No se encontró $COM_DIR/serial_manager.sh${RESET}"
+                    read -p "Presiona Enter para volver al menú..."
+                fi
+                ;;
+            8)
                 echo "Saliendo de Linux Tembipuru..."
                 exit 0
                 ;;
