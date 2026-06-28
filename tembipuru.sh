@@ -5,7 +5,7 @@
 
 # === CONFIGURACIÓN ===
 BASE_DIR="$(dirname "$(realpath "$0")")"
-DISK_DIR="$BASE_DIR/.Discos_y_utilidades"
+DISK_DIR="$BASE_DIR/Discos_y_utilidades"
 
 # Mensajes de depuración
 echo "BASE_DIR: $BASE_DIR"
@@ -54,13 +54,13 @@ main_menu() {
 
     if [ "$DEBUG" -eq 1 ]; then
         echo -e "${CYAN}" 
-        echo "Directorio de scripts: $BASE_DIR/.scripts"
-        echo "1) Actualizaciones (.scripts/update_system.sh)"
-        echo "2) Discos y utilidades (scripts en .Discos_y_utilidades)"
-        echo "3) Información del sistema (.scripts/neofetch_info.sh)"
-        echo "4) Pruebas y configuraciones de red (scripts en .Pruebas_y_configuraciones_red)"
-        echo "5) Gestión de usuarios y grupos (scripts en .Gestion_usuarios_y_grupos)"
-        echo "6) Tareas programadas (scripts en .Tareas_programadas)"
+        echo "Directorio de scripts: $BASE_DIR/scripts"
+        echo "1) Actualizaciones (actualizaciones_menu)"
+        echo "2) Discos y utilidades (scripts en Discos_y_utilidades)"
+        echo "3) Información del sistema (scripts/neofetch_info.sh)"
+        echo "4) Pruebas y configuraciones de red (scripts en Pruebas_y_configuraciones_red)"
+        echo "5) Gestión de usuarios y grupos (scripts en Gestion_usuarios_y_grupos)"
+        echo "6) Tareas programadas (scripts en Tareas_programadas)"
         echo "7) Salir"
     else
         echo "1) Actualizaciones"
@@ -87,21 +87,16 @@ main_menu() {
 
         case $opcion in
             1)
-                if [[ -f "$BASE_DIR/.scripts/update_system.sh" ]]; then
-                    bash "$BASE_DIR/.scripts/update_system.sh"
-                else
-                    echo -e "${RED}Script de actualización no encontrado: $BASE_DIR/.scripts/update_system.sh${RESET}"
-                    read -p "Presiona Enter..."
-                fi
+                actualizaciones_menu
                 ;;
             2)
                 discos_menu
                 ;;  
             3)
-                if [[ -f "$BASE_DIR/.scripts/neofetch_info.sh" ]]; then
-                    bash "$BASE_DIR/.scripts/neofetch_info.sh"
+                if [[ -f "$BASE_DIR/scripts/neofetch_info.sh" ]]; then
+                    bash "$BASE_DIR/scripts/neofetch_info.sh"
                 else
-                    echo -e "${RED}No se encontró $BASE_DIR/.scripts/neofetch_info.sh${RESET}"
+                    echo -e "${RED}No se encontró $BASE_DIR/scripts/neofetch_info.sh${RESET}"
                     read -p "Presiona Enter para volver al menú..."
                 fi
                 ;;
@@ -109,10 +104,10 @@ main_menu() {
                 red_menu
                 ;;
             5)
-                if [[ -f "$BASE_DIR/.Gestion_usuarios_y_grupos/manage_users_groups.sh" ]]; then
-                    bash "$BASE_DIR/.Gestion_usuarios_y_grupos/manage_users_groups.sh"
+                if [[ -f "$BASE_DIR/Gestion_usuarios_y_grupos/manage_users_groups.sh" ]]; then
+                    bash "$BASE_DIR/Gestion_usuarios_y_grupos/manage_users_groups.sh"
                 else
-                    echo -e "${RED}No se encontró $BASE_DIR/.Gestion_usuarios_y_grupos/manage_users_groups.sh${RESET}"
+                    echo -e "${RED}No se encontró $BASE_DIR/Gestion_usuarios_y_grupos/manage_users_groups.sh${RESET}"
                     read -p "Presiona Enter para volver al menú..."
                 fi
                 ;;
@@ -235,7 +230,7 @@ discos_menu() {
 # === SUBMENÚ: PRUEBAS Y CONFIGURACIONES DE RED ===
 red_menu() {
     local enters=0
-    PRUEBAS_DIR="$BASE_DIR/.Pruebas_y_configuraciones_red"
+    PRUEBAS_DIR="$BASE_DIR/Pruebas_y_configuraciones_red"
     while true; do
         clear
         echo -e "${CYAN}=== Pruebas y configuraciones de red ===${RESET}"
@@ -261,7 +256,8 @@ red_menu() {
             echo "7) Estado del Firewall"
             echo "8) Gestionar Firewall"
             echo "9) Prueba de ancho de banda"
-            echo "10) Volver"
+            echo "10) WiFi Doctor (Analizador)"
+            echo "11) Volver"
         fi
         echo
         read -p "Selecciona una opción: " opcion
@@ -357,6 +353,13 @@ red_menu() {
                 fi
                 ;;
             10)
+                if [[ -f "$PRUEBAS_DIR/wifi_doctor.sh" ]]; then
+                    bash "$PRUEBAS_DIR/wifi_doctor.sh"
+                else
+                    echo -e "${RED}No se encontró wifi_doctor.sh en $PRUEBAS_DIR${RESET}"
+                fi
+                ;;
+            11)
                 return
                 ;;
             *)
@@ -371,7 +374,7 @@ red_menu() {
 # === SUBMENÚ: TAREAS PROGRAMADAS ===
 tareas_programadas_menu() {
     local enters=0
-    TAREAS_DIR="$BASE_DIR/.Tareas_programadas"
+    TAREAS_DIR="$BASE_DIR/Tareas_programadas"
     while true; do
         clear
         echo -e "${CYAN}=== Tareas programadas ===${RESET}"
